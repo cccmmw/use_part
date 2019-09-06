@@ -30,9 +30,84 @@ if (browser.versions.mobile) { //判断是否是移动设备打开。browser代�
     //在QQ空间打开
   } else if (browser.versions.ios) {
     //是否在IOS浏览器打开
-  }else if (browser.versions.android) {
+  } else if (browser.versions.android) {
     //是否在安卓浏览器打开
   }
 } else {
   //否则就是PC浏览器打开
 }
+
+
+
+// 日期格式化
+setTime: function (index, code) {
+  var sTime, eTime;
+  var date = new Date();
+  if (code == 0) {
+    //今日
+    sTime = date;
+    eTime = date;
+  } else if (code == 1) {
+    //昨日
+    date.setDate(date.getDate() - 1);
+    sTime = date;
+    eTime = date;
+  } else if (code == 2) {
+    //本周
+    sTime = new Date(date - date.getDay() * 86400000);
+    eTime = date;
+  } else if (code == 3) {
+    //上周
+    sTime = new Date(date - (date.getDay() + 7) * 86400000);
+    eTime = new Date(date - (date.getDay()) * 86400000);
+  } else if (code == 4) {
+    //本月
+    sTime = new Date(date.getFullYear(), date.getMonth(), 1);
+    eTime = date;
+  } else if (code == 5) {
+    //上月
+    sTime = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+    eTime = new Date(new Date(date.getFullYear(), date.getMonth(), 1) - 86400000);
+  }
+}
+
+
+// 复制
+const range = document.createRange();
+range.selectNode(document.getElementById('code'));
+const selection = window.getSelection();
+if (selection.rangeCount > 0) selection.removeAllRanges();
+selection.addRange(range);
+document.execCommand('copy');
+
+
+// 获取手机机型
+var ua = navigator.userAgent.split("(")[1].split(")")[0];
+var brand = "";
+var phone = [/IPHONE/gi, /huawei/gi, /mi/gi, /vivo/gi, /OPPO/gi, /samsung/gi, /SONY/gi, /Nokia/gi, /HTC/gi, /ZTE/gi, /Lenovo/gi, /ZUK/gi, ]
+if (phone[0].test(ua)) {
+  brand = "iPhone";
+} else if (phone[1].test(ua)) {
+  brand = "HUAWEI";
+} else if (phone[2].test(ua)) {
+  brand = "小米";
+} else if (phone[3].test(ua)) {
+  brand = "vivo";
+} else if (phone[4].test(ua)) {
+  brand = "OPPO";
+} else if (phone[5].test(ua)) {
+  brand = "SAMSUNG";
+} else if (phone[6].test(ua)) {
+  brand = "SONY";
+} else if (phone[7].test(ua)) {
+  brand = "Nokia";
+} else if (phone[8].test(ua)) {
+  brand = "HTC";
+} else if (phone[9].test(ua)) {
+  brand = "ZTE";
+} else if (phone[10].test(ua) || phone[11].test(ua)) {
+  brand = "Lenovo";
+} else {
+  brand = "Android";
+}
+console.log(brand)
